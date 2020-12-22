@@ -4,12 +4,12 @@
 ### Current Integrations
 Here is the List of integrated features
 - **Accounts**: You can read [this guide](http://download.bitdefender.com/business/API/Bitdefender_GravityZone_On-Premises_APIGuide_enUS.pdf#page=11&zoom=100,33,112) for more information
-    - *getAccountsList*: Get list of all Control Center accounts
-    - *createAccount*: Create a new Control Center account
-    - *updateAccount*: Update Control Center accounts using accountId
-    - *deleteAccount*: Delete Control Center accounts using accountId
-    - *getNotificationsSettings*: Get information about notifications settings for an account
-    - *configureNotificationsSettings*: Configure/Update notifications settings for an account
+    - **getAccountsList**: Get list of all Control Center accounts
+    - **createAccount**: Create a new Control Center account
+    - **deleteAccount**: Delete Control Center accounts using accountId
+    - **updateAccount**: Update Control Center accounts using accountId
+    - **getNotificationsSettings**: Get information about notifications settings for an account
+    - **configureNotificationsSettings**: Configure/Update notifications settings for an account
 
 
 # Installation
