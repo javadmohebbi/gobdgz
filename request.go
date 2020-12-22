@@ -132,6 +132,10 @@ func (r *Request) SendRequest(response interface{}) error {
 			return errors.New(errorStr)
 		}
 
+		if r.Debug {
+			log.Println(string(respBdy))
+		}
+
 		// OK response
 		err = json.Unmarshal(respBdy, &response)
 		if err != nil {

@@ -27,7 +27,7 @@ func main() {
 		APIKey: "c24428a799d5c255e7d88ea828c66e42921a0f09ca8c352c05bf75bc005be721",
 
 		// set it to true if need debug information
-		Debug: true,
+		// Debug: true,
 
 		// JSON-RPC needs id, set it to the needed ID, UUID, NULL or leave it empty
 		// and we will take care of everythings
@@ -56,6 +56,8 @@ func main() {
 		createAccount(&gz, r)
 	case "updateAccount":
 		updateAccount(&gz, r)
+	case "getNotificationsSettings":
+		getNotificationsSettings(&gz, r)
 	default:
 		flag.PrintDefaults()
 	}
@@ -154,5 +156,31 @@ func updateAccount(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 	}
 
 	log.Printf("\n\tUser ID '%v' has updated! The result is '%v'\n", accountID, resp.Result)
+
+}
+
+// Get Notifications Settings
+func getNotificationsSettings(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
+	r := rq
+	r.Method = "getNotificationsSettings"
+
+	// read from input
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter Account ID: ")
+	accountID, _ := reader.ReadString('\n')
+	accountID = strings.Trim(accountID, " \n")
+
+	r.Params = map[string]interface{}{
+		"accountId": accountID,
+	}
+
+	gz.Accounts.SetRequest(r)
+	resp, err := gz.Accounts.GetNotificationsSettings()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("\nNotifications for User ID '%v' has got!", accountID)
+	fmt.Printf("\n\tNotificationStruct: %v\n\n", resp)
 
 }
