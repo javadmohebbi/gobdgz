@@ -79,6 +79,12 @@ type CreateAccountResponse struct {
 	Result  string  `json:"result"`
 }
 
+type UpdateAccountResponse struct {
+	ID      *string `json:"id"`
+	JSONRPC string  `json:"jsonrpc"`
+	Result  bool    `json:"result"`
+}
+
 // prepare request before sening the request
 func (a *Accounts) SetRequest(r Request) {
 	a.request = r
@@ -94,6 +100,13 @@ func (a *Accounts) GetAccounList() (GetAccountsListResponse, error) {
 // create account
 func (a *Accounts) CreateAccount() (CreateAccountResponse, error) {
 	var resp CreateAccountResponse
+	err := a.request.SendRequest(&resp)
+	return resp, err
+}
+
+// Update account
+func (a *Accounts) UpdateAccount() (UpdateAccountResponse, error) {
+	var resp UpdateAccountResponse
 	err := a.request.SendRequest(&resp)
 	return resp, err
 }

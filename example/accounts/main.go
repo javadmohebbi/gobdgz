@@ -1,10 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
 	"log"
 	"math/rand"
+	"os"
+	"strings"
 	"time"
 
 	"github.com/javadmohebbi/gobdgz"
@@ -40,8 +43,10 @@ func main() {
 		HttpMethod: "POST",
 	}
 
+	// method kind command line argument
 	kind := flag.String("kind", "getAccountsList", "methods to call: possible values are: getAccountsList, deleteAccount, createAccount, updateAccount, configureNotificationsSettings, getNotificationsSettings")
 
+	// parsing flags
 	flag.Parse()
 
 	switch *kind {
@@ -49,6 +54,8 @@ func main() {
 		getAccountsList(&gz, r)
 	case "createAccount":
 		createAccount(&gz, r)
+	case "updateAccount":
+		updateAccount(&gz, r)
 	default:
 		flag.PrintDefaults()
 	}
@@ -94,7 +101,7 @@ func createAccount(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 			"manageReports":   true,
 			"companyManager":  false,
 		},
-		// "targetIds": "" // id for targets to be manage by this user
+		// "targetIds": "" // []string // ids for targets to be manage by this user
 	}
 
 	gz.Accounts.SetRequest(r)
@@ -104,5 +111,48 @@ func createAccount(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 	}
 
 	log.Printf("\n\tUser '%v' with ID '%v' has created!\n", usr, resp.Result)
+
+}
+
+// update am account
+func updateAccount(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
+	r := rq
+	r.Method = "updateAccount"
+
+	// read from input
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter Account ID: ")
+	accountID, _ := reader.ReadString('\n')
+	accountID = strings.Trim(accountID, " \n")
+
+	rand.Seed(time.Now().UnixNano())
+	usr := fmt.Sprintf("user-%v", rand.Intn(20000))
+	r.Params = map[string]interface{}{
+		"accountId": accountID,
+		"email":     usr + "@example-update.org",
+		"profile": map[string]interface{}{
+			"fullName": "full name updated",
+			"timezone": "Asia/Tehran",
+			"language": "en_US",
+		},
+		"password": "1234!@#$qwerQWER" + fmt.Sprintf("-%v", rand.Intn(40000000000)),
+		"role":     3, // 1 = company admin, 2 = net admin, 3 = Security Analyst, 5 = custom
+		"rights": map[string]interface{}{
+			"manageCompanies": false,
+			"manageNetworks":  false,
+			"manageUsers":     false,
+			"manageReports":   false,
+			"companyManager":  false,
+		},
+		// "targetIds": ""  // []string // ids for targets to be manage by this user
+	}
+
+	gz.Accounts.SetRequest(r)
+	resp, err := gz.Accounts.UpdateAccount()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("\n\tUser ID '%v' has updated! The result is '%v'\n", accountID, resp.Result)
 
 }
