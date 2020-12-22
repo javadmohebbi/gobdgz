@@ -12,6 +12,7 @@ Here is the List of integrated features
     - **configureNotificationsSettings**: Configure/Update notifications settings for an account
 
 ### Future integrations
+This list will be available in the future releases:
 - **Network**
     - **getContainers**: Returns the network containers.
     - **getNetworkInventoryItems**: Returns network inventory items.
