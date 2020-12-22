@@ -6,3 +6,7 @@
 ```
 go get github.com/javadmohebbi/gobdgz
 ```
+
+
+# Documentation
+This repo is under development & documents will be available as soon as we get the job done!
