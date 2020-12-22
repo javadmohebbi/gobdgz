@@ -206,6 +206,9 @@ func configureNotificationsSettings(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request
 		"emailAddresses":    []string{"example1@example.com"},
 		"notificationsSettings": []map[string]interface{}{
 			map[string]interface{}{
+
+				// for type value this guide should be considered
+				// http://download.bitdefender.com/business/API/Bitdefender_GravityZone_On-Premises_APIGuide_enUS.pdf#page=25&zoom=100,33,438
 				"type":    23,
 				"enabled": true,
 				"visibilitySettings": map[string]interface{}{
@@ -215,6 +218,10 @@ func configureNotificationsSettings(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request
 					"emails":                     []string{},
 					"logToServer":                true,
 				},
+
+				// to understand relation between type & notification
+				// settings you should read this guide
+				// http://download.bitdefender.com/business/API/Bitdefender_GravityZone_On-Premises_APIGuide_enUS.pdf#page=27&zoom=100,33,409
 				"configurationSettings": map[string]interface{}{
 					// "threshold":    15,
 					// "useThreshold": false,
