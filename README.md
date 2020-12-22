@@ -11,6 +11,24 @@ Here is the List of integrated features
     - **getNotificationsSettings**: Get information about notifications settings for an account
     - **configureNotificationsSettings**: Configure/Update notifications settings for an account
 
+### Future integrations
+- **Network**
+    - **getContainers**: Returns the network containers.
+    - **getNetworkInventoryItems**: Returns network inventory items.
+    - **createScanTask**: Returns true if the task was successfully created.
+    - **createReconfigureClientTask**: Creates a new Reconfigure Client task.
+    - **getScanTasksList**: Returns the list of scan tasks.
+    - **getEndpointsList**: Returns the list of endpoints.
+    - **getManagedEndpointDetails**: Returns the details about a managed endpoints
+    - **createCustomGroup**: Creates a new group under an existing one or under Computers and Groups.
+    - **deleteCustomGroup**: Deletes a custom group.
+    - **moveCustomGroup**: Moves a custom group under another custom group.
+    - **moveEndpoints**: Moves the specified list of endpoints to a custom group.
+    - **deleteEndpoint**: Deletes a specified endpoint.
+    - **setEndpointLabel**: Sets a label to an endpoint.
+    - **createScanTaskByMac**: Generates scan tasks for managed endpoints identified by MAC address.
+    - **assignPolicy**: This method is used to assign a policy template on the specified endpoints or containers.
+
 
 # Get the module
 Run this command to install **gobdgz** module on your system
