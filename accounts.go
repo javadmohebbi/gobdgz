@@ -15,7 +15,7 @@ func (r Role) String() string {
 	case 2:
 		return "Network Administrator"
 	case 3:
-		return "Reporter"
+		return "Security Analyst"
 	case 5:
 		return "Custom"
 	default:
@@ -73,6 +73,12 @@ func (v GetAccountsListResponseItemsRights) String() string {
 	)
 }
 
+type CreateAccountResponse struct {
+	ID      *string `json:"id"`
+	JSONRPC string  `json:"jsonrpc"`
+	Result  string  `json:"result"`
+}
+
 // prepare request before sening the request
 func (a *Accounts) SetRequest(r Request) {
 	a.request = r
@@ -81,6 +87,13 @@ func (a *Accounts) SetRequest(r Request) {
 // get account list
 func (a *Accounts) GetAccounList() (GetAccountsListResponse, error) {
 	var resp GetAccountsListResponse
+	err := a.request.SendRequest(&resp)
+	return resp, err
+}
+
+// create account
+func (a *Accounts) CreateAccount() (CreateAccountResponse, error) {
+	var resp CreateAccountResponse
 	err := a.request.SendRequest(&resp)
 	return resp, err
 }

@@ -14,74 +14,35 @@ import (
 )
 
 type Request struct {
-	ID      string `json:"id"`
-	JSONRPC string `json:"jsonrpc"`
-	Method  string `json:"method"`
-	Params  map[string]interface{}
+	ID      string                 `json:"id"`
+	JSONRPC string                 `json:"jsonrpc"`
+	Method  string                 `json:"method"`
+	Params  map[string]interface{} `json:"params,omitempty"`
 
-	APIKey string
+	APIKey string `json:"-"`
 
-	URL        string
-	HttpMethod string
+	URL        string `json:"-"`
+	HttpMethod string `json:"-"`
 
 	httpRequest *http.Request
 
-	Debug bool
+	Debug bool `json:"-"`
 }
 
 func (r *Request) StringJSON() string {
-	js := "{"
-
 	// if ID is empty, It should set to default
 	// value of null
 	if r.ID == "" {
 		r.ID = "NULL"
 	}
 
-	js += "\"id\": \"" + r.ID + "\","
-	js += "\"jsonrpc\": \"" + r.JSONRPC + "\","
-	js += "\"method\": \"" + r.Method + "\","
+	jsonString, err := json.Marshal(r)
 
-	js += "\"params\": {"
-
-	for k, v := range r.Params {
-		switch v.(type) {
-		case string:
-			js += fmt.Sprintf("\"%v\": \"%v\",", k, v)
-		case int:
-			js += fmt.Sprintf("\"%v\": %v,", k, v)
-		case int32:
-			js += fmt.Sprintf("\"%v\": %v,", k, v)
-		case int64:
-			js += fmt.Sprintf("\"%v\": %v,", k, v)
-		case uint:
-			js += fmt.Sprintf("\"%v\": %v,", k, v)
-		case uint32:
-			js += fmt.Sprintf("\"%v\": %v,", k, v)
-		case uint64:
-			js += fmt.Sprintf("\"%v\": %v,", k, v)
-		case float32:
-			js += fmt.Sprintf("\"%v\": %v,", k, v)
-		case float64:
-			js += fmt.Sprintf("\"%v\": %v,", k, v)
-		default:
-			// nothing
-		}
+	if err != nil {
+		return "{}"
+	} else {
+		return string(jsonString)
 	}
-
-	// remove possible comma
-	if js[len(js)-1:] == "," {
-		js = js[:len(js)-1]
-	}
-
-	js += "}"
-	js += "}"
-
-	if r.Debug {
-		log.Println(js)
-	}
-
-	return js
 }
 
 func (r *Request) SendRequest(response interface{}) error {
