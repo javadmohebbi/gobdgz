@@ -4,12 +4,12 @@
 ### Integrations
 Here is the integrated features which you can use in this module
 - [x] **Accounts**: You can read [this guide](http://download.bitdefender.com/business/API/Bitdefender_GravityZone_On-Premises_APIGuide_enUS.pdf#page=11&zoom=100,33,112) for more information
-    - [x] **getAccountsList**: Get list of all Control Center accounts
-    - [x] **createAccount**: Create a new Control Center account
-    - [x] **deleteAccount**: Delete Control Center accounts using accountId
-    - [x] **updateAccount**: Update Control Center accounts using accountId
-    - [x] **getNotificationsSettings**: Get information about notifications settings for an account
-    - [x] **configureNotificationsSettings**: Configure/Update notifications settings for an account
+    - [x] **getAccountsList**: Get list of all Control Center accounts [example](https://github.com/javadmohebbi/gobdgz/blob/abef6a486f9f048261ee70d33246ebad2dd1f111/example/accounts/main.go#L72)
+    - [x] **createAccount**: Create a new Control Center account [example](https://github.com/javadmohebbi/gobdgz/blob/abef6a486f9f048261ee70d33246ebad2dd1f111/example/accounts/main.go#L87)
+    - [x] **deleteAccount**: Delete Control Center accounts using accountId [example](https://github.com/javadmohebbi/gobdgz/blob/abef6a486f9f048261ee70d33246ebad2dd1f111/example/accounts/main.go#L249)
+    - [x] **updateAccount**: Update Control Center accounts using accountId [example](https://github.com/javadmohebbi/gobdgz/blob/abef6a486f9f048261ee70d33246ebad2dd1f111/example/accounts/main.go#L124)
+    - [x] **getNotificationsSettings**: Get information about notifications settings for an account [example](https://github.com/javadmohebbi/gobdgz/blob/abef6a486f9f048261ee70d33246ebad2dd1f111/example/accounts/main.go#L167)
+    - [x] **configureNotificationsSettings**: Configure/Update notifications settings for an account [example](https://github.com/javadmohebbi/gobdgz/blob/abef6a486f9f048261ee70d33246ebad2dd1f111/example/accounts/main.go#L193)
 
 - [ ] **Network**
     - [ ] **getContainers**: Returns the network containers.
