@@ -12,7 +12,7 @@ Here is the List of integrated features
     - **configureNotificationsSettings**: Configure/Update notifications settings for an account
 
 
-# Installation
+# Get the module
 Run this command to install **gobdgz** module on your system
 ```
 go get github.com/javadmohebbi/gobdgz
