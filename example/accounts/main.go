@@ -60,6 +60,8 @@ func main() {
 		getNotificationsSettings(&gz, r)
 	case "configureNotificationsSettings":
 		configureNotificationsSettings(&gz, r)
+	case "deleteAccount":
+		deleteAccount(&gz, r)
 	default:
 		flag.PrintDefaults()
 	}
@@ -118,7 +120,7 @@ func createAccount(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 
 }
 
-// update am account
+// update an account
 func updateAccount(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 	r := rq
 	r.Method = "updateAccount"
@@ -240,5 +242,30 @@ func configureNotificationsSettings(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request
 	}
 
 	log.Printf("\n\tNotification settings for User ID '%v' has updated! The result is '%v'\n", accountID, resp.Result)
+
+}
+
+// delete an Account
+func deleteAccount(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
+	r := rq
+	r.Method = "deleteAccount"
+
+	// read from input
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter Account ID: ")
+	accountID, _ := reader.ReadString('\n')
+	accountID = strings.Trim(accountID, " \n")
+
+	r.Params = map[string]interface{}{
+		"accountId": accountID,
+	}
+
+	gz.Accounts.SetRequest(r)
+	resp, err := gz.Accounts.GetNotificationsSettings()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("\nUser ID '%v' has deleted with result '%v'!\n", accountID, resp.Result)
 
 }

@@ -195,6 +195,12 @@ type ConfigureNotificationsSettingsResponse struct {
 	Result  bool    `json:"result"`
 }
 
+type DeleteAccountResponse struct {
+	ID      *string `json:"id"`
+	JSONRPC string  `json:"jsonrpc"`
+	Result  *string `json:"result"`
+}
+
 // prepare request before sening the request
 func (a *Accounts) SetRequest(r Request) {
 	a.request = r
@@ -231,6 +237,13 @@ func (a *Accounts) GetNotificationsSettings() (GetNotificationsSettingsResponse,
 // Configure Notifications Settings
 func (a *Accounts) ConfigureNotificationsSettings() (ConfigureNotificationsSettingsResponse, error) {
 	var resp ConfigureNotificationsSettingsResponse
+	err := a.request.SendRequest(&resp)
+	return resp, err
+}
+
+// Delete an account
+func (a *Accounts) DeleteAccount() (DeleteAccountResponse, error) {
+	var resp DeleteAccountResponse
 	err := a.request.SendRequest(&resp)
 	return resp, err
 }
