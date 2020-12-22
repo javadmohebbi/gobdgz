@@ -3,10 +3,11 @@
 
 
 # Installation
+Run this command to install **gobdgz** module on your system
 ```
 go get github.com/javadmohebbi/gobdgz
 ```
 
 
 # Documentation
-This repo is under development & documents will be available as soon as we get the job done!
+If you are interested in reading this document, you might want to integrate **Bitdefender GravityZone** with your infrastructure. This module have been developing based on **Bitdefender GravityZone On-Premises API Guide** which is available in (this link)[http://download.bitdefender.com/business/API/Bitdefender_GravityZone_On-Premises_APIGuide_enUS.pdf]
