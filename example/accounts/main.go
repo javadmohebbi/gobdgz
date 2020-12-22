@@ -58,6 +58,8 @@ func main() {
 		updateAccount(&gz, r)
 	case "getNotificationsSettings":
 		getNotificationsSettings(&gz, r)
+	case "configureNotificationsSettings":
+		configureNotificationsSettings(&gz, r)
 	default:
 		flag.PrintDefaults()
 	}
@@ -182,5 +184,54 @@ func getNotificationsSettings(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 
 	fmt.Printf("\nNotifications for User ID '%v' has got!", accountID)
 	fmt.Printf("\n\tNotificationStruct: %v\n\n", resp)
+
+}
+
+// configure Notifications Settings
+func configureNotificationsSettings(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
+	r := rq
+	r.Method = "configureNotificationsSettings"
+
+	// read from input
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter Account ID: ")
+	accountID, _ := reader.ReadString('\n')
+	accountID = strings.Trim(accountID, " \n")
+
+	r.Params = map[string]interface{}{
+		"accountId":         accountID,
+		"deleteAfter":       60,
+		"includeDeviceName": true,
+		"includeDeviceFQDN": true,
+		"emailAddresses":    []string{"example1@example.com"},
+		"notificationsSettings": []map[string]interface{}{
+			map[string]interface{}{
+				"type":    23,
+				"enabled": true,
+				"visibilitySettings": map[string]interface{}{
+					"sendPerEmail":               true,
+					"showInConsole":              true,
+					"useCustomEmailDistribution": false,
+					"emails":                     []string{},
+					"logToServer":                true,
+				},
+				"configurationSettings": map[string]interface{}{
+					// "threshold":    15,
+					// "useThreshold": false,
+					"notUpdated": true,
+					"reboot":     true,
+					"stopped":    true,
+				},
+			},
+		},
+	}
+
+	gz.Accounts.SetRequest(r)
+	resp, err := gz.Accounts.ConfigureNotificationsSettings()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("\n\tNotification settings for User ID '%v' has updated! The result is '%v'\n", accountID, resp.Result)
 
 }

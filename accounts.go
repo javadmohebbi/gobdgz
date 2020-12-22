@@ -189,6 +189,12 @@ type GetNotificationsSettingsResponseDetailConfiguration struct {
 	UseThreshold bool `json:"useThreshold"`
 }
 
+type ConfigureNotificationsSettingsResponse struct {
+	ID      *string `json:"id"`
+	JSONRPC string  `json:"jsonrpc"`
+	Result  bool    `json:"result"`
+}
+
 // prepare request before sening the request
 func (a *Accounts) SetRequest(r Request) {
 	a.request = r
@@ -218,6 +224,13 @@ func (a *Accounts) UpdateAccount() (UpdateAccountResponse, error) {
 // Get Notifications Settings
 func (a *Accounts) GetNotificationsSettings() (GetNotificationsSettingsResponse, error) {
 	var resp GetNotificationsSettingsResponse
+	err := a.request.SendRequest(&resp)
+	return resp, err
+}
+
+// Configure Notifications Settings
+func (a *Accounts) ConfigureNotificationsSettings() (ConfigureNotificationsSettingsResponse, error) {
+	var resp ConfigureNotificationsSettingsResponse
 	err := a.request.SendRequest(&resp)
 	return resp, err
 }
