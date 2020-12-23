@@ -45,7 +45,7 @@ func main() {
 
 	// method kind command line argument
 	kind := flag.String("method", "getContainers", "methods to call: possible values are: getContainers, getNetworkInventoryItems, createScanTask, createReconfigureClientTask, getScanTasksList, getEndpointsList, getManagedEndpointDetails, createCustomGroup, deleteCustomGroup, moveCustomGroup, moveEndpoints, deleteEndpoint, setEndpointLabel, createScanTaskByMac, assignPolicy")
-	containerService := flag.String("service", "computers", "service to call: possible values are: computers, virtualmachines, mobile (NOT AVAILABLE in getNetworkInventoryItems)")
+	containerService := flag.String("service", "computers", "service to call: possible values are: computers, virtualmachines, mobile (mobile avaialble ONLY for getContainers)")
 
 	// parsing flags
 	flag.Parse()

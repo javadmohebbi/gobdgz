@@ -104,6 +104,41 @@ type CreateReconfigureClientTaskResponse struct {
 	Result  bool    `json:"result"`
 }
 
+type GetScanTasksListResponse struct {
+	ID      *string                        `json:"id"`
+	JSONRPC string                         `json:"jsonrpc"`
+	Result  GetScanTasksListResponseResult `json:"result"`
+}
+type GetScanTasksListResponseResult struct {
+	Total      int `json:"total"`
+	Page       int `json:"page"`
+	PerPage    int `json:"perPage"`
+	PagesCount int `json:"pagesPage"`
+
+	Items []GetScanTasksListResponseResultItems `json:"items"`
+}
+type ScanTaskStatus int
+
+func (v ScanTaskStatus) String() string {
+	str := "!!undocumented!!"
+	switch v {
+	case 1:
+		str = "Pending"
+	case 2:
+		str = "In Progress"
+	case 3:
+		str = "Finished"
+	}
+	return fmt.Sprintf("(%d) %v", v, str)
+}
+
+type GetScanTasksListResponseResultItems struct {
+	ID        string         `json:"id"`
+	Name      string         `json:"name"`
+	Status    ScanTaskStatus `json:"status"`
+	StartDate string         `json:"startDate"`
+}
+
 // prepare request before sening the request
 func (n *Network) SetRequest(r Request) {
 	n.request = r
@@ -139,6 +174,17 @@ func (n *Network) CreateScanTask() (CreateScanTaskResponse, error) {
 // * The networkMonitor module is deprecated. It is recommended to use networkAttackDefense instead.
 func (n *Network) CreateReconfigureClientTask() (CreateReconfigureClientTaskResponse, error) {
 	var resp CreateReconfigureClientTaskResponse
+	err := n.request.SendRequest(&resp)
+	return resp, err
+}
+
+// This method returns the list of scan tasks.
+// This method requires you to place the {service} name in the APIURL. The allowed
+// services are:
+// 		● computers, for "Computers and Virtual Machines"
+// 		● virtualmachines, for "Virtual Machines"
+func (n *Network) GetScanTasksList() (GetScanTasksListResponse, error) {
+	var resp GetScanTasksListResponse
 	err := n.request.SendRequest(&resp)
 	return resp, err
 }
