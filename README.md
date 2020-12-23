@@ -14,7 +14,7 @@ Here is the integrated features which you can use in this module
 - [x] **Network**
     - [x] **getContainers**: Returns the network containers. [(example)](https://github.com/javadmohebbi/gobdgz/blob/2152764672d5dfd3685199ce9128016988b01736/example/network/main.go#L62)
     - [x] **getNetworkInventoryItems**: Returns network inventory items. [(example)](https://github.com/javadmohebbi/gobdgz/blob/2152764672d5dfd3685199ce9128016988b01736/example/network/main.go#L96)
-    - [ ] **createScanTask**: Returns true if the task was successfully created.
+    - [x] **createScanTask**: Returns true if the task was successfully created.
     - [ ] **createReconfigureClientTask**: Creates a new Reconfigure Client task.
     - [ ] **getScanTasksList**: Returns the list of scan tasks.
     - [ ] **getEndpointsList**: Returns the list of endpoints.

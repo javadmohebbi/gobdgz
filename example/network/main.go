@@ -1,9 +1,14 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
 	"log"
+	"math/rand"
+	"os"
+	"strings"
+	"time"
 
 	"github.com/javadmohebbi/gobdgz"
 )
@@ -19,10 +24,10 @@ func main() {
 		// API KEY
 		// must be enabled in GravityZone Control Center
 		// http://download.bitdefender.com/business/API/Bitdefender_GravityZone_On-Premises_APIGuide_enUS.pdf#page=7&zoom=100,33,85
-		APIKey: "c24428a799d5c255e7d88ea828c66e42921a0f09ca8c352c05bf75bc005be721",
+		APIKey: "373fb67c5f28940929beb7f9cfa3504d310ea71fa7d90b2a13bda448f861fa9c",
 
 		// set it to true if need debug information
-		// Debug: true,
+		Debug: true,
 
 		// JSON-RPC needs id, set it to the needed ID, UUID, NULL or leave it empty
 		// and we will take care of everythings
@@ -52,6 +57,12 @@ func main() {
 	case "getNetworkInventoryItems":
 		r.URL += "/" + *containerService
 		getNetworkInventoryItems(&gz, r)
+	case "createScanTask":
+		r.URL += "/" + *containerService
+		createScanTask(&gz, r)
+	case "createReconfigureClientTask":
+		r.URL += "/" + *containerService
+		createReconfigureClientTask(&gz, r)
 	default:
 		flag.PrintDefaults()
 	}
@@ -133,5 +144,117 @@ func getNetworkInventoryItems(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 			)
 		}
 	}
+
+}
+
+// This method creates a new scan task.
+// Please note that the managed endpoints from virtualmachines service are also
+// displayed in computers service under Custom Group To avoid launching duplicate
+// scan tasks we recommend you to use the endpoints from the computers service.
+func createScanTask(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
+	r := rq
+	r.Method = "createScanTask"
+
+	rand.Seed(time.Now().UnixNano())
+	taskRand := fmt.Sprintf("task-rnd-number-%v", rand.Intn(20000))
+
+	r.Params = map[string]interface{}{
+		"targetIds": []string{
+			"5fc4b4403212d72d98240606",
+			// "another ID",
+			// "one another ID",
+			// ...
+		},
+		"type": 1, // 1 = quick, 2 = full, 3 = memory, 4 = custom
+		"name": taskRand,
+
+		// when type is 4
+		// "customScanSettings": map[string]interface{}{
+		// 	"scanDepth": 1, // 1=Aggresive, 2=normal, 3=permissive
+		// 	"scanPath": []string{
+		// 		"LocalDrives",
+		// 	},
+		// },
+	}
+
+	gz.Network.SetRequest(r)
+	resp, err := gz.Network.CreateScanTask()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("\n\tTask '%v' has created! The result is '%v'\n", taskRand, resp.Result)
+}
+
+// This method creates a new Reconfigure Client task. With this task you can choose
+// which modules to install on target agents.
+// * The networkMonitor module is deprecated. It is recommended to use networkAttackDefense instead.
+func createReconfigureClientTask(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
+	r := rq
+	r.Method = "createReconfigureClientTask"
+
+	// read from input
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter ObjectID: ")
+	objectID, _ := reader.ReadString('\n')
+	objectID = strings.Trim(objectID, " \n")
+
+	r.Params = map[string]interface{}{
+		"targetIds": []string{
+			objectID,
+		},
+		"scheduler": map[string]interface{}{
+			"type": 1, // 1=immediate, 2=scheduled
+			// if 1 other fields not needed
+
+			// "recurrence": 2, // 1 hourly = everyHour required
+			// 2 daily  = startTime required
+			// 3 weekly = everyHour & startTime required
+			// "everyHour": 1, // An integer betweeb 1 to 23
+			// "startTime": "13:23", // a string with the following formaat: HH:mm
+			// onWeekDay: 3, // an Integer between 1 to 7 where 1 is Monday & 7 is Sunday
+		},
+
+		"modules": map[string]interface{}{
+			// // 1 = enabled, 0 = disabled
+			"antimalware":           1,
+			"advancedThreatControl": 1,
+			"firewall":              1,
+			"contentControl":        1,
+			"deviceControl":         1,
+			"powerUser":             1,
+			"applicationControl":    1,
+			// "encryption":            1,
+			"advancedAntiExploit":  1,
+			"patchManagement":      1,
+			"networkAttackDefense": 1,
+		},
+		// "scanMode": map[string]interface{}{ // scan engine mode
+		// 	"type": 1, // 1 = automatic, 2 = custom (required vms and computers)
+
+		// 	"computers": ma[string]interface{}{
+		// 		"main": 1, // 1 = central, 2 = hybrid, 3 = local
+		// 		"fallback": 2, // 2 = hybrid, 3 = local (main must be 1 to set fallback)
+		// 	},
+
+		// 	"vms": ma[string]interface{}{
+		// 		"main": 1, // 1 = central, 2 = hybrid, 3 = local
+		// 		"fallback": 2, // 2 = hybrid, 3 = local (main must be 1 to set fallback)
+		// 	},
+		// },
+
+		// "roles": map[string]interface{}{
+		// 	"relay": 1, // 1 = enabled, 2 = disabled
+		// 	"exchange": 1, // 1 = enabled, 2 = disabled
+		// },
+	}
+
+	gz.Network.SetRequest(r)
+	resp, err := gz.Network.CreateReconfigureClientTask()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("\nCreate Configure Client Task with result'%v' has created\n", resp.Result)
 
 }

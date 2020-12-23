@@ -92,6 +92,18 @@ type GetNetworkInventoryItemsResponseResultItemsDetails struct {
 	MACs                   []string                   `json:"macs"`
 }
 
+type CreateScanTaskResponse struct {
+	ID      *string `json:"id"`
+	JSONRPC string  `json:"jsonrpc"`
+	Result  bool    `json:"result"`
+}
+
+type CreateReconfigureClientTaskResponse struct {
+	ID      *string `json:"id"`
+	JSONRPC string  `json:"jsonrpc"`
+	Result  bool    `json:"result"`
+}
+
 // prepare request before sening the request
 func (n *Network) SetRequest(r Request) {
 	n.request = r
@@ -108,6 +120,25 @@ func (n *Network) GetContainers() (GetContainersResponse, error) {
 // This method returns network inventory items.
 func (n *Network) GetNetworkInventoryItems() (GetNetworkInventoryItemsResponse, error) {
 	var resp GetNetworkInventoryItemsResponse
+	err := n.request.SendRequest(&resp)
+	return resp, err
+}
+
+// This method creates a new scan task.
+// Please note that the managed endpoints from virtualmachines service are also
+// displayed in computers service under Custom Group To avoid launching duplicate
+// scan tasks we recommend you to use the endpoints from the computers service.
+func (n *Network) CreateScanTask() (CreateScanTaskResponse, error) {
+	var resp CreateScanTaskResponse
+	err := n.request.SendRequest(&resp)
+	return resp, err
+}
+
+// This method creates a new Reconfigure Client task. With this task you can choose
+// which modules to install on target agents.
+// * The networkMonitor module is deprecated. It is recommended to use networkAttackDefense instead.
+func (n *Network) CreateReconfigureClientTask() (CreateReconfigureClientTaskResponse, error) {
+	var resp CreateReconfigureClientTaskResponse
 	err := n.request.SendRequest(&resp)
 	return resp, err
 }
