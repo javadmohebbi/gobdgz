@@ -44,7 +44,7 @@ func main() {
 	}
 
 	// method kind command line argument
-	kind := flag.String("kind", "getAccountsList", "methods to call: possible values are: getAccountsList, deleteAccount, createAccount, updateAccount, configureNotificationsSettings, getNotificationsSettings")
+	kind := flag.String("method", "getAccountsList", "methods to call: possible values are: getAccountsList, deleteAccount, createAccount, updateAccount, configureNotificationsSettings, getNotificationsSettings")
 
 	// parsing flags
 	flag.Parse()
