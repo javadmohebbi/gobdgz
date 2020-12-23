@@ -11,9 +11,9 @@ Here is the integrated features which you can use in this module
     - [x] **getNotificationsSettings**: Get information about notifications settings for an account [(example)](https://github.com/javadmohebbi/gobdgz/blob/abef6a486f9f048261ee70d33246ebad2dd1f111/example/accounts/main.go#L167)
     - [x] **configureNotificationsSettings**: Configure/Update notifications settings for an account [(example)](https://github.com/javadmohebbi/gobdgz/blob/abef6a486f9f048261ee70d33246ebad2dd1f111/example/accounts/main.go#L193)
 
-- [ ] **Network**
-    - [ ] **getContainers**: Returns the network containers.
-    - [ ] **getNetworkInventoryItems**: Returns network inventory items.
+- [-] **Network**
+    - [x] **getContainers**: Returns the network containers.
+    - [x] **getNetworkInventoryItems**: Returns network inventory items.
     - [ ] **createScanTask**: Returns true if the task was successfully created.
     - [ ] **createReconfigureClientTask**: Creates a new Reconfigure Client task.
     - [ ] **getScanTasksList**: Returns the list of scan tasks.
