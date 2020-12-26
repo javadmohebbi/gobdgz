@@ -139,6 +139,59 @@ type GetScanTasksListResponseResultItems struct {
 	StartDate string         `json:"startDate"`
 }
 
+type GetEndpointsListResponse struct {
+	ID      *string                        `json:"id"`
+	JSONRPC string                         `json:"jsonrpc"`
+	Result  GetEndpointsListResponseResult `json:"result"`
+}
+
+type GetEndpointsListResponseResult struct {
+	Total      int `json:"total"`
+	Page       int `json:"page"`
+	PerPage    int `json:"perPage"`
+	PagesCount int `json:"pagesPage"`
+
+	Items []GetEndpointsListResponseResultItems `json:"items"`
+}
+
+type HVIProtectionType int
+
+func (v HVIProtectionType) String() string {
+	str := "!!undocumented!!"
+	switch v {
+	case 1:
+		str = "Security Server Multi-platform"
+	case 2:
+		str = "BEST"
+	}
+	return fmt.Sprintf("(%d) %v", v, str)
+}
+
+type GetEndpointsListResponseResultItems struct {
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Label string `json:"label"`
+	FQDN  string `json:"fqdn"`
+
+	GroupID     string                     `json:"groupId"`
+	IsManaged   bool                       `json:"isManaged"`
+	MachineType InventoryObjectMachineType `json:"machineType"`
+
+	OperatingSystemVersion string   `json:"operatingSystemVersion"`
+	IP                     string   `json:"ip"`
+	MACs                   []string `json:"macs"`
+	SSID                   string   `json:"ssid"`
+
+	ManagedWithHvi        bool              `json:"managedWithHvi"`
+	HVIProtectionType     HVIProtectionType `json:"hviProtectionType"`
+	ManagedWithBest       bool              `json:"managedWithBest"`
+	ManagedExchangeServer bool              `json:"managedExchangeServer"`
+	ManagedRelay          bool              `json:"managedRelay"`
+	SecurityServer        bool              `json:"securityServer"`
+	ManagedWithNsx        bool              `json:"managedWithNsx"`
+	ManagedWithVShield    bool              `json:"managedWithVShield"`
+}
+
 // prepare request before sening the request
 func (n *Network) SetRequest(r Request) {
 	n.request = r
@@ -185,6 +238,19 @@ func (n *Network) CreateReconfigureClientTask() (CreateReconfigureClientTaskResp
 // 		● virtualmachines, for "Virtual Machines"
 func (n *Network) GetScanTasksList() (GetScanTasksListResponse, error) {
 	var resp GetScanTasksListResponse
+	err := n.request.SendRequest(&resp)
+	return resp, err
+}
+
+// This method returns the list of the endpoints.
+// To find the parentId, you must do several recursive calls to getContainers
+// untilthe container with the endpoints is reached. The containerID from the response
+// of getContainers should be used as parentId in this call. The same viewType
+// used in getContainers should be used in this call.
+// services are: computers, for "Computers and Virtual Machines"
+// and virtualmachines, for "Virtual Machines"
+func (n *Network) GetEndpointsList() (GetEndpointsListResponse, error) {
+	var resp GetEndpointsListResponse
 	err := n.request.SendRequest(&resp)
 	return resp, err
 }

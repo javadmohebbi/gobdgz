@@ -63,6 +63,12 @@ func main() {
 	case "createReconfigureClientTask":
 		r.URL += "/" + *containerService
 		createReconfigureClientTask(&gz, r)
+	case "getScanTasksList":
+		r.URL += "/" + *containerService
+		getScanTasksList(&gz, r)
+	case "getEndpointsList":
+		r.URL += "/" + *containerService
+		getEndpointsList(&gz, r)
 	default:
 		flag.PrintDefaults()
 	}
@@ -256,5 +262,100 @@ func createReconfigureClientTask(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 	}
 
 	fmt.Printf("\nCreate Configure Client Task with result'%v' has created\n", resp.Result)
+
+}
+
+// This method creates a new Reconfigure Client task. With this task you can choose
+// This method requires you to place the {service} name in the APIURL. The allowed
+// services are: computers, for "Computers and Virtual Machines"
+// and virtualmachines, for "Virtual Machines"
+func getScanTasksList(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
+	r := rq
+	r.Method = "getScanTasksList"
+
+	r.Params = map[string]interface{}{
+		// Task name
+		// * means all
+		"name": "*",
+
+		// 1 = Pending
+		// 2 = In progress
+		// 3 = Finished
+		"status": 3,
+		// "page": 1,
+		// "perPage": 30
+	}
+
+	gz.Network.SetRequest(r)
+	resp, err := gz.Network.GetScanTasksList()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("List of scan tasks")
+	for _, v := range resp.Result.Items {
+		fmt.Printf("\t ID:'%v', Name:'%v', StartDate:'%v', Status:'%v'  \n\n", v.ID, v.Name, v.StartDate, v.Status)
+	}
+
+}
+
+// This method returns the list of the endpoints.
+// To find the parentId, you must do several recursive calls to getContainers
+// untilthe container with the endpoints is reached. The containerID from the response
+// of getContainers should be used as parentId in this call. The same viewType
+// used in getContainers should be used in this call.
+// services are: computers, for "Computers and Virtual Machines"
+// and virtualmachines, for "Virtual Machines"
+func getEndpointsList(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
+	r := rq
+	r.Method = "getEndpointsList"
+
+	r.Params = map[string]interface{}{
+
+		// parent id container
+		// "parentId": "",
+
+		// isManaged or not
+		"isManaged": true,
+
+		// The ID of the view type for the virtual environment inventory. The view type depends on the
+		// virtualization platform. In VMWare integrations,
+		// the available options are:
+		//		● 1 - Hosts and Clusters view (default)
+		//		● 2 - Virtual Machines view.
+		// In Citrix, XenServer integrations, the available
+		// options are:
+		// 		● 3 - Server view (default)
+		//		● 4 - Folder view.
+		// "viewType": 4,
+
+		//"filters": map[string]interface{}{} //http://download.bitdefender.com/business/API/Bitdefender_GravityZone_On-Premises_APIGuide_enUS.pdf#available%20filters
+		// "filters": map[string]interface{}{
+		// 	"depth": map[string]interface{}{
+		// 		"allItemsRecursively": true,
+		// 	},
+		// 	"security": map[string]interface{}{
+		// 		"management": map[string]interface{}{
+		// 			"managedWithBest": true,
+		// 			"managedRelays":   true,
+		// 			"securityServers": true,
+		// 		},
+		// 	},
+		// },
+
+		// "page": 1,
+		// "perPage": 30
+	}
+
+	gz.Network.SetRequest(r)
+	resp, err := gz.Network.GetEndpointsList()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Endpoint Items:")
+	for k, v := range resp.Result.Items {
+		fmt.Printf("\tRow: %v -> %v='%v',type='%v',IP='%v'\n", k+1, v.ID, v.Name, v.MachineType, v.IP)
+	}
 
 }

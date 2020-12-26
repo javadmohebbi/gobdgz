@@ -16,8 +16,8 @@ Here is the integrated features which you can use in this module
     - [x] **getNetworkInventoryItems**: Returns network inventory items.
     - [x] **createScanTask**: Returns true if the task was successfully created.
     - [x] **createReconfigureClientTask**: Creates a new Reconfigure Client task.
-    - [ ] **getScanTasksList**: Returns the list of scan tasks.
-    - [ ] **getEndpointsList**: Returns the list of endpoints.
+    - [x] **getScanTasksList**: Returns the list of scan tasks.
+    - [x] **getEndpointsList**: Returns the list of endpoints.
     - [ ] **getManagedEndpointDetails**: Returns the details about a managed endpoints
     - [ ] **createCustomGroup**: Creates a new group under an existing one or under Computers and Groups.
     - [ ] **deleteCustomGroup**: Deletes a custom group.
