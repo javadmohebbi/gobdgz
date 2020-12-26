@@ -347,6 +347,12 @@ type AgentModules struct {
 	NetworkAttackDefense  bool `json:"networkAttackDefense"`
 }
 
+type CreateCustomGroupResponse struct {
+	ID      *string `json:"id"`
+	JSONRPC string  `json:"jsonrpc"`
+	Result  string  `json:"result"`
+}
+
 // prepare request before sening the request
 func (n *Network) SetRequest(r Request) {
 	n.request = r
@@ -416,6 +422,15 @@ func (n *Network) GetEndpointsList() (GetEndpointsListResponse, error) {
 // and virtualmachines, for "Virtual Machines"
 func (n *Network) GetManagedEndpointDetails() (GetManagedEndpointDetailsResponse, error) {
 	var resp GetManagedEndpointDetailsResponse
+	err := n.request.SendRequest(&resp)
+	return resp, err
+}
+
+// This method creates a new custom group.
+// services are: computers, for "Computers and Virtual Machines"
+// and virtualmachines, for "Virtual Machines"
+func (n *Network) CreateCustomGroup() (CreateCustomGroupResponse, error) {
+	var resp CreateCustomGroupResponse
 	err := n.request.SendRequest(&resp)
 	return resp, err
 }

@@ -72,6 +72,9 @@ func main() {
 	case "getManagedEndpointDetails":
 		r.URL += "/" + *containerService
 		getManagedEndpointDetails(&gz, r)
+	case "createCustomGroup":
+		r.URL += "/" + *containerService
+		createCustomGroup(&gz, r)
 	default:
 		flag.PrintDefaults()
 	}
@@ -388,5 +391,39 @@ func getManagedEndpointDetails(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 	}
 
 	fmt.Printf("Endpint '%v (%v)' under group '%v' is protected via '%v' policy\n\n", objectID, resp.Result.Name, resp.Result.Group.Name, resp.Result.Policy.Name)
+
+}
+
+// This method creates a new custom group.
+// services are: computers, for "Computers and Virtual Machines"
+// and virtualmachines, for "Virtual Machines"
+func createCustomGroup(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
+	r := rq
+	r.Method = "createCustomGroup"
+
+	// read from input
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter parentId: ")
+	objectID, _ := reader.ReadString('\n')
+	objectID = strings.Trim(objectID, " \n")
+
+	// read from input
+	fmt.Print("Enter group name: ")
+	reader = bufio.NewReader(os.Stdin)
+	groupName, _ := reader.ReadString('\n')
+	groupName = strings.Trim(groupName, " \n")
+
+	r.Params = map[string]interface{}{
+		"parentId":  objectID,
+		"groupName": groupName,
+	}
+
+	gz.Network.SetRequest(r)
+	resp, err := gz.Network.CreateCustomGroup()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Group '%v' with '%v' ID has created \n\n", groupName, resp.Result)
 
 }
