@@ -1,6 +1,8 @@
 package gobdgz
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Network struct {
 	request Request
@@ -192,6 +194,159 @@ type GetEndpointsListResponseResultItems struct {
 	ManagedWithVShield    bool              `json:"managedWithVShield"`
 }
 
+type GetManagedEndpointDetailsResponse struct {
+	ID      *string                                 `json:"id"`
+	JSONRPC string                                  `json:"jsonrpc"`
+	Result  GetManagedEndpointDetailsResponseResult `json:"result"`
+}
+type ManagedEndpointStatus int
+
+func (v ManagedEndpointStatus) String() string {
+	str := "!!undocumented!!"
+	switch v {
+	case 1:
+		str = "Online"
+	case 2:
+		str = "Offline"
+	case 3:
+		str = "Suspended"
+	case 0:
+		str = "Unknown"
+	}
+	return fmt.Sprintf("(%d) %v", v, str)
+}
+
+type GetManagedEndpointDetailsResponseResult struct {
+	ID                            string                                       `json:"id"`
+	Name                          string                                       `json:"name"`
+	CompanyID                     string                                       `json:"companyId"`
+	OperatingSystem               string                                       `json:"operatingSystem"`
+	State                         ManagedEndpointStatus                        `json:"state"`
+	IP                            string                                       `json:"ip"`
+	MachineType                   InventoryObjectMachineType                   `json:"machineType"`
+	Agent                         GetManagedEndpointDetailsResponseResultAgent `json:"agent"`
+	Group                         AgentGroup                                   `json:"group"`
+	MalwareStatus                 AgentMalwareStatus                           `json:"malwareStatus"`
+	Policy                        AgentPolicy                                  `json:"policy"`
+	HypervisorMemoryIntrospection AgentHypervisorMemoryIntrospection           `json:"hypervisorMemoryIntrospection"`
+	Modules                       AgentModules                                 `json:"modules"`
+	Label                         string                                       `json:"label"`
+	ManagedWithBest               bool                                         `json:"managedWithBest"`
+	ManagedExchangeServer         bool                                         `json:"managedExchangeServer"`
+	ManagedRelay                  bool                                         `json:"managedRelay"`
+	SecurityServer                bool                                         `json:"securityServer"`
+	ManagedWithNsx                bool                                         `json:"managedWithNsx"`
+	ManagedWithVShield            bool                                         `json:"managedWithVShield"`
+	ManagedWithHvi                bool                                         `json:"managedWithHvi"`
+	HVIProtectionType             HVIProtectionType                            `json:"hviProtectionType"`
+}
+type EngineType int
+
+func (v EngineType) String() string {
+	str := "!!undocumented!!"
+	switch v {
+	case 1:
+		str = "Central Scanning (Security Server)"
+	case 2:
+		str = "Hybrid Scanning (Light Engines)"
+	case 3:
+		str = "Local Scanning (Full Engines)"
+	case 0:
+		str = "Unknown"
+	}
+	return fmt.Sprintf("(%d) %v", v, str)
+}
+
+type AgentLicense int
+
+func (v AgentLicense) String() string {
+	str := "!!undocumented!!"
+	switch v {
+	case 0:
+		str = "Pending authentication"
+	case 1:
+		str = "Active license"
+	case 2:
+		str = "Expired license"
+	case 6:
+		str = "No license or not applicable"
+	}
+	return fmt.Sprintf("(%d) %v", v, str)
+}
+
+type TypeOfAgent int
+
+func (v TypeOfAgent) String() string {
+	str := "!!undocumented!!"
+	switch v {
+	case 1:
+		str = "Endpoint Security"
+	case 2:
+		str = "Bitdefender Tools"
+	case 3:
+		str = "BEST"
+	}
+	return fmt.Sprintf("(%d) %v", v, str)
+}
+
+type GetManagedEndpointDetailsResponseResultAgent struct {
+	EngineVersion           string       `json:"engineVersion"`
+	PrimaryEngine           EngineType   `json:"primaryEngine"`
+	FallbackEngine          EngineType   `json:"fallbackEngine"`
+	LastUpdate              string       `json:"lastUpdate"`
+	Licensed                AgentLicense `json:"licensed"`
+	ProductOutdated         bool         `json:"productOutdated"`
+	ProductUpdateDisabled   bool         `json:"productUpdateDisabled"`
+	ProductVersion          string       `json:"productVersion"`
+	SignatureOutdated       bool         `json:"signatureOutdated"`
+	SignatureUpdateDisabled bool         `json:"signatureUpdateDisabled"`
+	Type                    TypeOfAgent  `json:"type"`
+}
+type AgentGroup struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+type AgentMalwareStatus struct {
+	Detection bool `json:"detection"`
+	Infected  bool `json:"infected"`
+}
+type AgentPolicy struct {
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	Applied bool   `json:"applied"`
+}
+type AgentHypervisorMemoryIntrospection struct {
+	Status         bool                                             `json:"status"`
+	ActiveModules  AgentHypervisorMemoryIntrospectionActiveModules  `json:"activeModules"`
+	SecurityServer AgentHypervisorMemoryIntrospectionSecurityServer `json:"securityServer"`
+	IsLicensed     bool                                             `json:"isLicensed"`
+}
+type AgentHypervisorMemoryIntrospectionActiveModules struct {
+	UserMode   bool `json:"userMode"`
+	KernelMode bool `json:"kernelMode"`
+}
+type AgentHypervisorMemoryIntrospectionSecurityServer struct {
+	Name  string `json:"name"`
+	IP    string `json:"ip"`
+	Label string `json:"label"`
+}
+type AgentModules struct {
+	AdvancedThreatControl bool `json:"advancedThreatControl"`
+	Antimalware           bool `json:"antimalware"`
+	ContentControl        bool `json:"contentControl"`
+	DeviceControl         bool `json:"deviceControl"`
+	Firewall              bool `json:"firewall"`
+	PowerUser             bool `json:"powerUser"`
+	Encryption            bool `json:"encryption"`
+	HyperDetect           bool `json:"hyperDetect"`
+	PatchManagement       bool `json:"patchManagement"`
+	Relay                 bool `json:"relay"`
+	Exchange              bool `json:"exchange"`
+	SandboxAnalyzer       bool `json:"sandboxAnalyzer"`
+	AdvancedAntiExploit   bool `json:"advancedAntiExploit"`
+	NetworkAttackDefense  bool `json:"networkAttackDefense"`
+}
+
 // prepare request before sening the request
 func (n *Network) SetRequest(r Request) {
 	n.request = r
@@ -251,6 +406,16 @@ func (n *Network) GetScanTasksList() (GetScanTasksListResponse, error) {
 // and virtualmachines, for "Virtual Machines"
 func (n *Network) GetEndpointsList() (GetEndpointsListResponse, error) {
 	var resp GetEndpointsListResponse
+	err := n.request.SendRequest(&resp)
+	return resp, err
+}
+
+// This method returns detailed information, such as: details to identify the endpoint
+// and the security agent, the status of installed protection modules.
+// services are: computers, for "Computers and Virtual Machines"
+// and virtualmachines, for "Virtual Machines"
+func (n *Network) GetManagedEndpointDetails() (GetManagedEndpointDetailsResponse, error) {
+	var resp GetManagedEndpointDetailsResponse
 	err := n.request.SendRequest(&resp)
 	return resp, err
 }

@@ -18,7 +18,7 @@ Here is the integrated features which you can use in this module
     - [x] **createReconfigureClientTask**: Creates a new Reconfigure Client task.
     - [x] **getScanTasksList**: Returns the list of scan tasks.
     - [x] **getEndpointsList**: Returns the list of endpoints.
-    - [ ] **getManagedEndpointDetails**: Returns the details about a managed endpoints
+    - [x] **getManagedEndpointDetails**: Returns the details about a managed endpoints
     - [ ] **createCustomGroup**: Creates a new group under an existing one or under Computers and Groups.
     - [ ] **deleteCustomGroup**: Deletes a custom group.
     - [ ] **moveCustomGroup**: Moves a custom group under another custom group.

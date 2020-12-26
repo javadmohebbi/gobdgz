@@ -69,6 +69,9 @@ func main() {
 	case "getEndpointsList":
 		r.URL += "/" + *containerService
 		getEndpointsList(&gz, r)
+	case "getManagedEndpointDetails":
+		r.URL += "/" + *containerService
+		getManagedEndpointDetails(&gz, r)
 	default:
 		flag.PrintDefaults()
 	}
@@ -357,5 +360,33 @@ func getEndpointsList(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 	for k, v := range resp.Result.Items {
 		fmt.Printf("\tRow: %v -> %v='%v',type='%v',IP='%v'\n", k+1, v.ID, v.Name, v.MachineType, v.IP)
 	}
+
+}
+
+// This method returns detailed information, such as: details to identify the endpoint
+// and the security agent, the status of installed protection modules.
+// services are: computers, for "Computers and Virtual Machines"
+// and virtualmachines, for "Virtual Machines"
+func getManagedEndpointDetails(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
+	r := rq
+	r.Method = "getManagedEndpointDetails"
+
+	// read from input
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter endpointId: ")
+	objectID, _ := reader.ReadString('\n')
+	objectID = strings.Trim(objectID, " \n")
+
+	r.Params = map[string]interface{}{
+		"endpointId": objectID,
+	}
+
+	gz.Network.SetRequest(r)
+	resp, err := gz.Network.GetManagedEndpointDetails()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Endpint '%v (%v)' under group '%v' is protected via '%v' policy\n\n", objectID, resp.Result.Name, resp.Result.Group.Name, resp.Result.Policy.Name)
 
 }
