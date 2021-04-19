@@ -1,5 +1,5 @@
 # Golang-Bitdefender GravityZone API
-**gobdgz** go-module helps GravityZone API developers who are using Google GoLang integrate their apps easier.
+**gobdgz** go-module helps GravityZone API developers who are using Google GoLang, integrate their apps easier.
 
 ### Integrations
 Here is the integrated features which you can use in this module
@@ -41,10 +41,11 @@ If you are interested in reading this document, you might want to integrate **Bi
 
 ### Quick Start Guide
 1. Get API Keys
-- An API Key will help you to communicate with GravityZone API Server. To generate an API key you can read [this document](http://download.bitdefender.com/business/API/Bitdefender_GravityZone_On-Premises_APIGuide_enUS.pdf#page=7&zoom=100,33,85)
-- We RECOMMEND you to create a dedicated account for using APIs
+- An API Key is required to communicate with GravityZone API service. To generate an API key you can read [this document](http://download.bitdefender.com/business/API/Bitdefender_GravityZone_On-Premises_APIGuide_enUS.pdf#page=7&zoom=100,33,85)
+
 2. Get **gobdgz** module
     - Run this command to get the module: ```go get github.com/javadmohebbi/gobdgz```
 
-3. Use the this example directory to get more infromation about implementation
+3. Use the this example directory to get more information about implementation
     - [Accounts examples](example/accounts)
+    - [Networks examples](example/network)
