@@ -20,7 +20,7 @@ Here is the integrated features which you can use in this module
     - [x] **getEndpointsList**: Returns the list of endpoints.
     - [x] **getManagedEndpointDetails**: Returns the details about a managed endpoints
     - [x] **createCustomGroup**: Creates a new group under an existing one or under Computers and Groups.
-    - [ ] **deleteCustomGroup**: Deletes a custom group.
+    - [x] **deleteCustomGroup**: Deletes a custom group.
     - [ ] **moveCustomGroup**: Moves a custom group under another custom group.
     - [ ] **moveEndpoints**: Moves the specified list of endpoints to a custom group.
     - [ ] **deleteEndpoint**: Deletes a specified endpoint.

@@ -75,6 +75,9 @@ func main() {
 	case "createCustomGroup":
 		r.URL += "/" + *containerService
 		createCustomGroup(&gz, r)
+	case "deleteCustomGroup":
+		r.URL += "/" + *containerService
+		deleteCustomGroup(&gz, r)
 	default:
 		flag.PrintDefaults()
 	}
@@ -425,5 +428,33 @@ func createCustomGroup(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 	}
 
 	fmt.Printf("Group '%v' with '%v' ID has created \n\n", groupName, resp.Result)
+
+}
+
+// This method deletes a custom group.
+// services are: computers, for "Computers and Virtual Machines"
+// and virtualmachines, for "Virtual Machines"
+func deleteCustomGroup(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
+	r := rq
+	r.Method = "deleteCustomGroup"
+
+	// read from input
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter groupId: ")
+	objectID, _ := reader.ReadString('\n')
+	objectID = strings.Trim(objectID, " \n")
+
+	r.Params = map[string]interface{}{
+		"groupId": objectID,
+		// "force": true,
+	}
+
+	gz.Network.SetRequest(r)
+	resp, err := gz.Network.DeleteCustomGroup()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Group '%v' deletion request with result '%v' lanuched \n\n", objectID, resp.Result)
 
 }
