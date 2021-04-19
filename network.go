@@ -371,10 +371,16 @@ type MoveEndpointGroupResponse struct {
 	Result  *string `json:"result"`
 }
 
-type DeleteEndpointGroupResponse struct {
+type DeleteEndpointResponse struct {
 	ID      *string `json:"id"`
 	JSONRPC string  `json:"jsonrpc"`
 	Result  *string `json:"result"`
+}
+
+type SetEndpointLabelResponse struct {
+	ID      *string `json:"id"`
+	JSONRPC string  `json:"jsonrpc"`
+	Result  *bool   `json:"result"`
 }
 
 // prepare request before sening the request
@@ -493,8 +499,19 @@ func (n *Network) MoveEndpoints() (MoveEndpointGroupResponse, error) {
 // ** For managed endpoints,
 // ** an Uninstall task is automatically generated.
 // ** To permanently remove an endpoint, call the method twice using the sameID.
-func (n *Network) DeleteEndpoint() (DeleteEndpointGroupResponse, error) {
-	var resp DeleteEndpointGroupResponse
+func (n *Network) DeleteEndpoint() (DeleteEndpointResponse, error) {
+	var resp DeleteEndpointResponse
+	err := n.request.SendRequest(&resp)
+	return resp, err
+}
+
+// This method sets a new label to an endpoint.
+// This method returns a Boolean which is True, when the label was successfully set
+// ** A string representing the label. The maximum
+// ** allowed length is 64 characters. Enter an empty
+// ** string to reset a previously set label
+func (n *Network) SetEndpointLabel() (SetEndpointLabelResponse, error) {
+	var resp SetEndpointLabelResponse
 	err := n.request.SendRequest(&resp)
 	return resp, err
 }

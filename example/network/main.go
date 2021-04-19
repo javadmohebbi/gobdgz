@@ -88,6 +88,9 @@ func main() {
 	case "deleteEndpoint":
 		r.URL += "/" + *containerService
 		deleteEndpoint(&gz, r)
+	case "setEndpointLabel":
+		r.URL += "/" + *containerService
+		setEndpointLabel(&gz, r)
 	default:
 		flag.PrintDefaults()
 	}
@@ -597,11 +600,50 @@ func deleteEndpoint(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 	}
 
 	gz.Network.SetRequest(r)
-	resp, err := gz.Network.DeleteCustomGroup()
+	resp, err := gz.Network.DeleteEndpoint()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	fmt.Printf("Endpoint with ID '%v' & with result '%v' has removed\n\n", objectID, resp.Result)
+
+}
+
+// This method sets a new label to an endpoint.
+// This method returns a Boolean which is True, when the label was successfully set
+// ** A string representing the label. The maximum
+// ** allowed length is 64 characters. Enter an empty
+// ** string to reset a previously set label
+func setEndpointLabel(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
+	r := rq
+	r.Method = "setEndpointLabel"
+
+	// read from input
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Printf("Enter The ID of the Endpoint you want to change it's label: ")
+	objectID, _ := reader.ReadString('\n')
+	objectID = strings.Trim(objectID, " \n")
+
+	// read from input
+	reader = bufio.NewReader(os.Stdin)
+	fmt.Printf("Enter Endpoint '%v' label: ", objectID)
+	label, _ := reader.ReadString('\n')
+	label = strings.Trim(label, " \n")
+
+	r.Params = map[string]interface{}{
+		// The ID of the endpoint
+		"endpointId": objectID,
+
+		// The ID of the endpoint
+		"label": label,
+	}
+
+	gz.Network.SetRequest(r)
+	resp, err := gz.Network.SetEndpointLabel()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Endpoint's label with ID '%v' & with result '%v' has changed to '%v'\n\n", objectID, resp.Result, label)
 
 }

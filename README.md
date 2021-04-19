@@ -24,7 +24,7 @@ Here is the integrated features which you can use in this module
     - [x] **moveCustomGroup**: Moves a custom group under another custom group.
     - [x] **moveEndpoints**: Moves the specified list of endpoints to a custom group.
     - [x] **deleteEndpoint**: Deletes a specified endpoint.
-    - [ ] **setEndpointLabel**: Sets a label to an endpoint.
+    - [x] **setEndpointLabel**: Sets a label to an endpoint.
     - [ ] **createScanTaskByMac**: Generates scan tasks for managed endpoints identified by MAC address.
     - [ ] **assignPolicy**: This method is used to assign a policy template on the specified endpoints or containers.
 
