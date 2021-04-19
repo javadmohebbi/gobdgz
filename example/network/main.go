@@ -78,6 +78,9 @@ func main() {
 	case "deleteCustomGroup":
 		r.URL += "/" + *containerService
 		deleteCustomGroup(&gz, r)
+	case "moveCustomGroup":
+		r.URL += "/" + *containerService
+		moveCustomGroup(&gz, r)
 	default:
 		flag.PrintDefaults()
 	}
@@ -92,7 +95,7 @@ func getContainers(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 	r.Params = map[string]interface{}{
 
 		// The ID of the container. If null, the top containers of the specified service type will be returned.
-		// "parentId": 4,
+		// "parentId": "5fc4b4403212d72d98240606",
 
 		// The ID of the view type for the virtual environment inventory. The view type depends on the
 		// virtualization platform. In VMWare integrations,
@@ -456,5 +459,43 @@ func deleteCustomGroup(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 	}
 
 	fmt.Printf("Group '%v' deletion request with result '%v' lanuched \n\n", objectID, resp.Result)
+
+}
+
+// This methodmovesa customgroupto anothercustomgroup
+// services are: computers, for "Computers and Virtual Machines"
+// and virtualmachines, for "Virtual Machines"
+func moveCustomGroup(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
+	r := rq
+	r.Method = "moveCustomGroup"
+
+	// read from input
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter The ID of the custom group to be moved: ")
+	objectID, _ := reader.ReadString('\n')
+	objectID = strings.Trim(objectID, " \n")
+
+	// read from input
+	reader = bufio.NewReader(os.Stdin)
+	fmt.Print("Enter The ID of the destination custom group: ")
+	destinationID, _ := reader.ReadString('\n')
+	destinationID = strings.Trim(destinationID, " \n")
+
+	r.Params = map[string]interface{}{
+
+		// The ID of the custom group to be moved
+		"groupId": objectID,
+
+		// The ID of the destination custom group
+		"parentId": destinationID,
+	}
+
+	gz.Network.SetRequest(r)
+	resp, err := gz.Network.MoveCustomGroup()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Group with ID '%v' & with result '%v' has moved to Group ID '%v' \n\n", objectID, resp.Result, destinationID)
 
 }

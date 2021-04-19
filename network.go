@@ -359,6 +359,12 @@ type DeleteCustomGroupResponse struct {
 	Result  *string `json:"result"`
 }
 
+type MoveCustomGroupResponse struct {
+	ID      *string `json:"id"`
+	JSONRPC string  `json:"jsonrpc"`
+	Result  *string `json:"result"`
+}
+
 // prepare request before sening the request
 func (n *Network) SetRequest(r Request) {
 	n.request = r
@@ -446,6 +452,15 @@ func (n *Network) CreateCustomGroup() (CreateCustomGroupResponse, error) {
 // and virtualmachines, for "Virtual Machines"
 func (n *Network) DeleteCustomGroup() (DeleteCustomGroupResponse, error) {
 	var resp DeleteCustomGroupResponse
+	err := n.request.SendRequest(&resp)
+	return resp, err
+}
+
+// This method deletes a custom group.
+// services are: computers, for "Computers and Virtual Machines"
+// and virtualmachines, for "Virtual Machines"
+func (n *Network) MoveCustomGroup() (MoveCustomGroupResponse, error) {
+	var resp MoveCustomGroupResponse
 	err := n.request.SendRequest(&resp)
 	return resp, err
 }
