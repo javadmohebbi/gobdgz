@@ -365,6 +365,12 @@ type MoveCustomGroupResponse struct {
 	Result  *string `json:"result"`
 }
 
+type MoveEndpointGroupResponse struct {
+	ID      *string `json:"id"`
+	JSONRPC string  `json:"jsonrpc"`
+	Result  *string `json:"result"`
+}
+
 // prepare request before sening the request
 func (n *Network) SetRequest(r Request) {
 	n.request = r
@@ -461,6 +467,15 @@ func (n *Network) DeleteCustomGroup() (DeleteCustomGroupResponse, error) {
 // and virtualmachines, for "Virtual Machines"
 func (n *Network) MoveCustomGroup() (MoveCustomGroupResponse, error) {
 	var resp MoveCustomGroupResponse
+	err := n.request.SendRequest(&resp)
+	return resp, err
+}
+
+// This method moves a list of endpoints to a custom group.
+// services are: computers, for "Computers and Virtual Machines"
+// and virtualmachines, for "Virtual Machines"
+func (n *Network) MoveEndpoints() (MoveEndpointGroupResponse, error) {
+	var resp MoveEndpointGroupResponse
 	err := n.request.SendRequest(&resp)
 	return resp, err
 }

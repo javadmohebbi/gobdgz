@@ -7,6 +7,7 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -81,6 +82,9 @@ func main() {
 	case "moveCustomGroup":
 		r.URL += "/" + *containerService
 		moveCustomGroup(&gz, r)
+	case "moveEndpoints":
+		r.URL += "/" + *containerService
+		moveEndpoints(&gz, r)
 	default:
 		flag.PrintDefaults()
 	}
@@ -497,5 +501,72 @@ func moveCustomGroup(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 	}
 
 	fmt.Printf("Group with ID '%v' & with result '%v' has moved to Group ID '%v' \n\n", objectID, resp.Result, destinationID)
+
+}
+
+// This method moves a list of endpoints to a custom group.
+// services are: computers, for "Computers and Virtual Machines"
+// and virtualmachines, for "Virtual Machines"
+func moveEndpoints(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
+	r := rq
+	r.Method = "moveEndpoints"
+
+	// read from input
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter The ID of the destination custom group: ")
+	destinationID, _ := reader.ReadString('\n')
+	destinationID = strings.Trim(destinationID, " \n")
+
+	// read from input
+	reader = bufio.NewReader(os.Stdin)
+	fmt.Print("How many endpoints you want to move to: ")
+	countStr, _ := reader.ReadString('\n')
+	countStr = strings.Trim(countStr, " \n")
+
+	// convert to Int
+	count, err := strconv.Atoi(countStr)
+
+	// if err, returns error
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if count <= 0 {
+		log.Fatal("Endpoints count can not be ZERO. Exiting....")
+	}
+
+	// endpointIDs
+	var objectIDs []string
+
+	for i := 0; i < count; i++ {
+		// read from input
+		reader = bufio.NewReader(os.Stdin)
+		fmt.Printf("Enter The IDs of the Endpoint to be moved (%v/%v): ", i+1, count)
+		objectID, _ := reader.ReadString('\n')
+		objectID = strings.Trim(objectID, " \n")
+
+		// append endpoint ID to list
+		objectIDs = append(objectIDs, objectID)
+	}
+
+	r.Params = map[string]interface{}{
+
+		// The list of endpointsIDs to be moved
+		"endpointIds": objectIDs,
+
+		// The ID of the destination custom group
+		"groupId": destinationID,
+	}
+
+	gz.Network.SetRequest(r)
+	resp, err := gz.Network.MoveEndpoints()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for k, objID := range objectIDs {
+		fmt.Printf("%v -> Endpoint with ID '%v' & with result '%v' has moved to Group ID '%v' \n", k+1, objID, resp.Result, destinationID)
+	}
+	fmt.Printf("\n")
 
 }
