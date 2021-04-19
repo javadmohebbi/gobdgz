@@ -85,6 +85,9 @@ func main() {
 	case "moveEndpoints":
 		r.URL += "/" + *containerService
 		moveEndpoints(&gz, r)
+	case "deleteEndpoint":
+		r.URL += "/" + *containerService
+		deleteEndpoint(&gz, r)
 	default:
 		flag.PrintDefaults()
 	}
@@ -332,7 +335,7 @@ func getEndpointsList(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 		// "parentId": "",
 
 		// isManaged or not
-		"isManaged": true,
+		"isManaged": false,
 
 		// The ID of the view type for the virtual environment inventory. The view type depends on the
 		// virtualization platform. In VMWare integrations,
@@ -568,5 +571,37 @@ func moveEndpoints(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 		fmt.Printf("%v -> Endpoint with ID '%v' & with result '%v' has moved to Group ID '%v' \n", k+1, objID, resp.Result, destinationID)
 	}
 	fmt.Printf("\n")
+
+}
+
+// This method deletes an endpoint.
+// services are: computers, for "Computers and Virtual Machines"
+// and virtualmachines, for "Virtual Machines"
+// ** Deleting an endpoint under CustomGroups moves it to the Deleted group.
+// ** For managed endpoints,
+// ** an Uninstall task is automatically generated.
+// ** To permanently remove an endpoint, call the method twice using the sameID.
+func deleteEndpoint(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
+	r := rq
+	r.Method = "deleteEndpoint"
+
+	// read from input
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Printf("Enter The ID of the Endpoint to be removed: ")
+	objectID, _ := reader.ReadString('\n')
+	objectID = strings.Trim(objectID, " \n")
+
+	r.Params = map[string]interface{}{
+		// The ID of the endpoint
+		"endpointId": objectID,
+	}
+
+	gz.Network.SetRequest(r)
+	resp, err := gz.Network.DeleteCustomGroup()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Endpoint with ID '%v' & with result '%v' has removed\n\n", objectID, resp.Result)
 
 }

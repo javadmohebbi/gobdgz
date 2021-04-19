@@ -371,6 +371,12 @@ type MoveEndpointGroupResponse struct {
 	Result  *string `json:"result"`
 }
 
+type DeleteEndpointGroupResponse struct {
+	ID      *string `json:"id"`
+	JSONRPC string  `json:"jsonrpc"`
+	Result  *string `json:"result"`
+}
+
 // prepare request before sening the request
 func (n *Network) SetRequest(r Request) {
 	n.request = r
@@ -476,6 +482,19 @@ func (n *Network) MoveCustomGroup() (MoveCustomGroupResponse, error) {
 // and virtualmachines, for "Virtual Machines"
 func (n *Network) MoveEndpoints() (MoveEndpointGroupResponse, error) {
 	var resp MoveEndpointGroupResponse
+	err := n.request.SendRequest(&resp)
+	return resp, err
+}
+
+// This method deletes an endpoint.
+// services are: computers, for "Computers and Virtual Machines"
+// and virtualmachines, for "Virtual Machines"
+// ** Deleting an endpoint under CustomGroups moves it to the Deleted group.
+// ** For managed endpoints,
+// ** an Uninstall task is automatically generated.
+// ** To permanently remove an endpoint, call the method twice using the sameID.
+func (n *Network) DeleteEndpoint() (DeleteEndpointGroupResponse, error) {
+	var resp DeleteEndpointGroupResponse
 	err := n.request.SendRequest(&resp)
 	return resp, err
 }
