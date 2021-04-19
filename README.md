@@ -46,6 +46,6 @@ If you are interested in reading this document, you might want to integrate **Bi
 2. Get **gobdgz** module
     - Run this command to get the module: ```go get github.com/javadmohebbi/gobdgz```
 
-3. Use the this example directory to get more information about implementation
+3. Use these examples to get more information about how you can use this repo for integration
     - [Accounts examples](example/accounts)
     - [Networks examples](example/network)
