@@ -22,7 +22,7 @@ Here is the integrated features which you can use in this module
     - [x] **createCustomGroup**: Creates a new group under an existing one or under Computers and Groups.
     - [x] **deleteCustomGroup**: Deletes a custom group.
     - [x] **moveCustomGroup**: Moves a custom group under another custom group.
-    - [ ] **moveEndpoints**: Moves the specified list of endpoints to a custom group.
+    - [x] **moveEndpoints**: Moves the specified list of endpoints to a custom group.
     - [ ] **deleteEndpoint**: Deletes a specified endpoint.
     - [ ] **setEndpointLabel**: Sets a label to an endpoint.
     - [ ] **createScanTaskByMac**: Generates scan tasks for managed endpoints identified by MAC address.

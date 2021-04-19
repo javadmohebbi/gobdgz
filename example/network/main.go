@@ -541,7 +541,7 @@ func moveEndpoints(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request) {
 	for i := 0; i < count; i++ {
 		// read from input
 		reader = bufio.NewReader(os.Stdin)
-		fmt.Printf("Enter The IDs of the Endpoint to be moved (%v/%v): ", i+1, count)
+		fmt.Printf("Enter The ID of the Endpoint to be moved (%v/%v): ", i+1, count)
 		objectID, _ := reader.ReadString('\n')
 		objectID = strings.Trim(objectID, " \n")
 
