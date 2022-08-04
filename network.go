@@ -27,7 +27,7 @@ type GetNetworkInventoryItemsResponseResult struct {
 	Total      int `json:"total"`
 	Page       int `json:"page"`
 	PerPage    int `json:"perPage"`
-	PagesCount int `json:"pagesPage"`
+	PagesCount int `json:"pagesCount"`
 
 	Items []GetNetworkInventoryItemsResponseResultItems `json:"items"`
 }
@@ -115,7 +115,7 @@ type GetScanTasksListResponseResult struct {
 	Total      int `json:"total"`
 	Page       int `json:"page"`
 	PerPage    int `json:"perPage"`
-	PagesCount int `json:"pagesPage"`
+	PagesCount int `json:"pagesCount"`
 
 	Items []GetScanTasksListResponseResultItems `json:"items"`
 }
@@ -151,7 +151,7 @@ type GetEndpointsListResponseResult struct {
 	Total      int `json:"total"`
 	Page       int `json:"page"`
 	PerPage    int `json:"perPage"`
-	PagesCount int `json:"pagesPage"`
+	PagesCount int `json:"pagesCount"`
 
 	Items []GetEndpointsListResponseResultItems `json:"items"`
 }
