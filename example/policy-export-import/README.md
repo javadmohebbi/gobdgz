@@ -35,4 +35,5 @@ In order to import policies from one instance of Bitdefender GravityZone applian
     - Linux: ```$ policy-migration -config /path/to/config.json```
     - Windows: ```C:\ > policy-migration.exe -config \path\to\config.json```
     - macOS: ```$ policy-migration -config /path/to/config.json```
+
 5- If all the requirements are met, policies would be migrated from old server to new one.
