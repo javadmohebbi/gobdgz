@@ -6,12 +6,12 @@ In order to import policies from one instance of Bitdefender GravityZone applian
 1. Make sure you have created an API key on both Instance of GZ Appliances. [Read Official Documentation](https://www.bitdefender.com/business/support/en/77209-125280-getting-started.html#UUID-e6befdd4-3eb1-4b6e-cc6c-19bdd16847b4_section-idm4640169987334432655171029621) for creating API Key
 2. Download Policy Migration tools:
    - **Linux**:
-     - [i386 architecture](../../dist/linux/x86/policy-migration)
-     - [amd64 architecture](../../dist/linux/x64/policy-migration)
+     - [i386 architecture](https://github.com/javadmohebbi/gobdgz/raw/master/dist/linux/x64/policy-migration)
+     - [amd64 architecture](https://github.com/javadmohebbi/gobdgz/raw/master/dist/linux/x64/policy-migration)
    - **Windows**:
-     - [Windows 32bit](../../dist/windows/x86/policy-migration.exe)
-     - [Windows 64bit](../../dist/windows/x64/policy-migration.exe)
-   - **macOS**: [amd64 architecture](../../dist/macOS/x64/policy-migration)
+     - [Windows 32bit](https://github.com/javadmohebbi/gobdgz/raw/master/dist/windows/x86/policy-migration.exe)
+     - [Windows 64bit](https://github.com/javadmohebbi/gobdgz/raw/master/dist/windows/x64/policy-migration.exe)
+   - **macOS**: [amd64 architecture](https://github.com/javadmohebbi/gobdgz/raw/master/dist/macOS/x64/policy-migration)
 3. Create a file called `config.json` and use the below template and place your own here:
 ```
 {
