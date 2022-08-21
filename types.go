@@ -6,4 +6,6 @@ type GravityZoneAPI struct {
 	Accounts Accounts
 
 	Network Network
+
+	Policy Policy
 }

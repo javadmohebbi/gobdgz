@@ -28,6 +28,8 @@ Here is the integrated features which you can use in this module
     - [ ] **createScanTaskByMac**: Generates scan tasks for managed endpoints identified by MAC address.
     - [ ] **assignPolicy**: This method is used to assign a policy template on the specified endpoints or containers.
 
+- [x] **Policies**
+  - [x] Import policy from one GravityZone console to another one. [(HOW TO GUIDE)](example/policy-export-import/)
 
 # Get the module
 Run this command to install **gobdgz** module on your system

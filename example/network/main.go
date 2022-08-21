@@ -17,7 +17,7 @@ import (
 func main() {
 	// create new instance of GravityZone API
 	gz := gobdgz.GravityZoneAPI{
-		BaseURL: "https://172.16.50.105/api/v1.0/jsonrpc/",
+		BaseURL: "https://192.168.59.113/api/v1.0/jsonrpc/",
 	}
 
 	// Create Default Request struct
@@ -25,7 +25,7 @@ func main() {
 		// API KEY
 		// must be enabled in GravityZone Control Center
 		// http://download.bitdefender.com/business/API/Bitdefender_GravityZone_On-Premises_APIGuide_enUS.pdf#page=7&zoom=100,33,85
-		APIKey: "373fb67c5f28940929beb7f9cfa3504d310ea71fa7d90b2a13bda448f861fa9c",
+		APIKey: "64db6b1d6addb60d7d6fc09b538c3a0e2f3b1925f26e649f0a68b0c92d7af481",
 
 		// set it to true if need debug information
 		Debug: true,

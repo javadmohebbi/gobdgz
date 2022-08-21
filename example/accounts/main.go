@@ -207,7 +207,7 @@ func configureNotificationsSettings(gz *gobdgz.GravityZoneAPI, rq gobdgz.Request
 		"includeDeviceFQDN": true,
 		"emailAddresses":    []string{"example1@example.com"},
 		"notificationsSettings": []map[string]interface{}{
-			map[string]interface{}{
+			{
 
 				// for type value this guide should be considered
 				// http://download.bitdefender.com/business/API/Bitdefender_GravityZone_On-Premises_APIGuide_enUS.pdf#page=25&zoom=100,33,438
