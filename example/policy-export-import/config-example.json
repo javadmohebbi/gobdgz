@@ -1,0 +1,15 @@
+{
+    "SRC": {
+        "SERVER": "192.168.59.113",
+        "API_KEY": "928eb517ef0cc0f84c910c38f14f1bb4b5fac87af099e704b40d71c1cf61ac24",
+        "POLICIES": [
+            "test-a",
+            "test-y",
+            "test-x"
+        ]
+    },
+    "DST": {
+        "SERVER": "192.168.59.113",
+        "API_KEY": "928eb517ef0cc0f84c910c38f14f1bb4b5fac87af099e704b40d71c1cf61ac24"
+    }
+}

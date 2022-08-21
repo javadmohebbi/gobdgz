@@ -16,14 +16,16 @@ In order to import policies from one instance of Bitdefender GravityZone applian
 ```
 {
     "SRC": {
-        "SERVER: "192.168.1.1",
+        "SERVER": "192.168.1.1",
         "API_KEY": "928eb517ef0cc0f84c910c38f14f1bb4b5fac87af099e704b40d71c1cf61ac24",
         "POLICIES": [
-            {"Policy1", "Policy2", "Policy3", ...}
+            "Policy1",
+            "Policy2",
+            "Policy3"
         ]
     },
     "DST": {
-        "SERVER: "192.168.1.2",
+        "SERVER": "192.168.1.2",
         "API_KEY": "d6c812141b354aed5a04cc69cbde132385c05437c17a6e33bb8dcf7060d393d0"
     }
 }
