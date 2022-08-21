@@ -31,7 +31,8 @@ In order to import policies from one instance of Bitdefender GravityZone applian
 }
 ```
 4. Run the following command to migrate from **SRC** server to **DST** server.
+    - ON Linux & macOS ```chmod +x -v policy-migration```
     - Linux: ```$ policy-migration -config /path/to/config.json```
-    - Windows: ```$ policy-migration -config \path\to\config.json```
+    - Windows: ```C:\ > policy-migration.exe -config \path\to\config.json```
     - macOS: ```$ policy-migration -config /path/to/config.json```
 5- If all the requirements are met, policies would be migrated from old server to new one.
