@@ -165,8 +165,9 @@ func init_dst_server() {
 func initFlags() {
 
 	configFile := flag.String("config", "", "config.json configuration file (https://github.com/javadmohebbi/gobdgz/tree/master/example/policy-export-import)")
+	_debug := flag.Bool("debug", false, "Enable/Disable Debuging")
 	flag.Parse()
-	// debug = true
+	debug = *_debug
 
 	if *configFile == "" {
 		fmt.Println("-config {file.json} is required!")
